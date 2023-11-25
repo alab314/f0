@@ -15,6 +15,7 @@ pydantic-settings = "^2.1.0"
 alembic = "^1.12.1"
 python-jose = {extras = ["cryptography"], version = "^3.3.0"}
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+python-multipart = "^0.0.6"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.3"
@@ -44,9 +45,9 @@ extend-exclude = '(migrations/)'
 lint = 'clear && ruff . && blue --check . --diff'
 format = 'clear && blue .  && isort .'
 run = 'clear && uvicorn fast_zero.app:app --reload'
-pre_test = 'clear && task lint'
+pre_test = 'task lint'
 test = 'clear && pytest -s -x --cov=fast_zero -vv'
-post_test = 'clear && coverage html'
+post_test = 'coverage html'
 
 [build-system]
 requires = ["poetry-core"]
