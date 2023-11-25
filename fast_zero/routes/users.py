@@ -57,13 +57,11 @@ def update_user(
         raise HTTPException(
             status_code=400, detail='Permissões insuficientes!'
         )
-
     current_user.username = user.username
     current_user.password = get_password_hash(user.password)
     current_user.email = user.email
     session.commit()
     session.refresh(current_user)
-
     return current_user
 
 
@@ -73,8 +71,6 @@ def delete_user(user_id: int, session: Session, current_user: CurrentUser):
         raise HTTPException(
             status_code=400, detail='Permissões insuficientes!'
         )
-
     session.delete(current_user)
     session.commit()
-
     return {'detail': 'Usuário apagado!'}

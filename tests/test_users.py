@@ -44,8 +44,22 @@ def test_update_user(client, user, token):
     assert response.json() == {
         'username': 'cuca',
         'email': 'cuca@folclore.br',
-        'id': 1,
+        'id': user.id,
     }
+
+
+def test_update_user_with_wrong_user(client, other_user, token):
+    response = client.put(
+        f'/users/{other_user.id}',
+        headers={'Authorization': f'Bearer {token}'},
+        json={
+            'username': 'cuca',
+            'email': 'cuca@folclore.br',
+            'password': 's1t10',
+        },
+    )
+    assert response.status_code == 400
+    assert response.json() == {'detail': 'Permissões insuficientes!'}
 
 
 def test_delete_user(client, user, token):
@@ -55,3 +69,12 @@ def test_delete_user(client, user, token):
     )
     assert response.status_code == 200
     assert response.json() == {'detail': 'Usuário apagado!'}
+
+
+def test_delete_user_wrong_user(client, other_user, token):
+    response = client.delete(
+        f'/users/{other_user.id}',
+        headers={'Authorization': f'Bearer {token}'},
+    )
+    assert response.status_code == 400
+    assert response.json() == {'detail': 'Permissões insuficientes!'}
