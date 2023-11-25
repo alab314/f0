@@ -39,12 +39,12 @@ pythonpath = "."
 extend-exclude = '(migrations/)'
 
 [tool.taskipy.tasks]
-lint = 'ruff . && blue --check . --diff'
-format = 'blue .  && isort .'
-run = 'uvicorn fast_zero.app:app --reload'
-pre_test = 'task lint'
-test = 'pytest -s -x --cov=fast_zero -vv'
-post_test = 'coverage html'
+lint = 'clear && ruff . && blue --check . --diff'
+format = 'clear && blue .  && isort .'
+run = 'clear && uvicorn fast_zero.app:app --reload'
+pre_test = 'clear && task lint'
+test = 'clear && pytest -s -x --cov=fast_zero -vv'
+post_test = 'clear && coverage html'
 
 [build-system]
 requires = ["poetry-core"]
