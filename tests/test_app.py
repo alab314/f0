@@ -1,4 +1,9 @@
+from fastapi.testclient import TestClient
+
+from fast_zero.app import app
 from fast_zero.schemas import UserPublic
+
+client = TestClient(app)
 
 
 def test_root_deve_retornar_200_e_ola_mundo(client):
@@ -9,7 +14,7 @@ def test_root_deve_retornar_200_e_ola_mundo(client):
 
 def test_create_user(client):
     response = client.post(
-        '/users',
+        '/users/',
         json={
             'username': 'saci',
             'email': 'saci@folclore.br',
@@ -42,7 +47,7 @@ def test_update_user(client, user):
         json={
             'username': 'cuca',
             'email': 'cuca@folclore.br',
-            'password': 'pirlimpimpim',
+            'password': 's1t10',
         },
     )
     assert response.status_code == 200

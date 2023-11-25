@@ -5,10 +5,9 @@ from sqlalchemy.orm import Session
 from fast_zero.database import get_session
 from fast_zero.models import User
 from fast_zero.schemas import Message, UserList, UserPublic, UserSchema
+from fast_zero.security import get_password_hash
 
 app = FastAPI()
-
-# database = []  # provisório!
 
 
 @app.get('/')
@@ -18,15 +17,16 @@ def read_root():
 
 @app.post('/users/', response_model=UserPublic, status_code=201)
 def create_user(user: UserSchema, session: Session = Depends(get_session)):
-    db_user = session.scalar(
-        select(User).where(User.username == user.username)
-    )
+    db_user = session.scalar(select(User).where(User.email == user.email))
     if db_user:
         raise HTTPException(
-            status_code=400, detail='`Username` já esta registrado!'
+            status_code=400, detail='`Email` já esta registrado!'
         )
+    hashed_password = get_password_hash(user.password)
     db_user = User(
-        username=user.username, password=user.password, email=user.email
+        email=user.email,
+        username=user.username,
+        password=hashed_password,
     )
     session.add(db_user)
     session.commit()
@@ -60,7 +60,7 @@ def update_user(
 @app.delete('/users/{user_id}', response_model=Message)
 def delete_user(user_id: int, session: Session = Depends(get_session)):
     db_user = session.scalar(select(User).where(User.id == user_id))
-    if db_user in None:
+    if db_user is None:
         raise HTTPException(status_code=404, detail='Usuário não encontrado!')
     session.delete(db_user)
     session.commit()
