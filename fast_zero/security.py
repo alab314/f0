@@ -11,7 +11,7 @@ from fast_zero.database import get_session
 from fast_zero.models import User
 from fast_zero.schemas import TokenData
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='auth/token')
 
 SECRET_KEY = 'pirlim-pim-pim'  # Isso é provisório, vamos ajustar!
 ALGORITHM = 'HS256'
