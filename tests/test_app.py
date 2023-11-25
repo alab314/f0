@@ -19,14 +19,14 @@ def test_create_user(client):
         '/users/',
         json={
             'username': 'saci',
-            'email': 'saci@sitiodoppa.com.br',
+            'email': 'saci@folclore.br',
             'password': 'carapuća',
         },
     )
     assert response.status_code == 201
     assert response.json() == {
         'username': 'saci',
-        'email': 'saci@sitiodoppa.com.br',
+        'email': 'saci@folclore.br',
         'id': 1,
     }
 
@@ -38,7 +38,7 @@ def test_read_users(client):
         'users': [
             {
                 'username': 'saci',
-                'email': 'saci@sitiodoppa.com.br',
+                'email': 'saci@folclore.br',
                 'id': 1,
             }
         ]
@@ -50,14 +50,14 @@ def test_update_user(client):
         '/users/1',
         json={
             'username': 'cuca',
-            'email': 'cuca@sitiodoppa.com.br',
+            'email': 'cuca@folclore.br',
             'password': 'pirlimpimpim',
         },
     )
     assert response.status_code == 200
     assert response.json() == {
         'username': 'cuca',
-        'email': 'cuca@sitiodoppa.com.br',
+        'email': 'cuca@folclore.br',
         'id': 1,
     }
 
